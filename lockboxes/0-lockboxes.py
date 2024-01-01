@@ -3,9 +3,9 @@
 
 
 def canUnlockAll(boxes):
-    """ 
+    """
     Method that determines if all the boxes can be opened
-    Argument : 
+    Argument :
         boxes: list of lists
     Returns: True if all boxes can be opened, False otherwise
     """
