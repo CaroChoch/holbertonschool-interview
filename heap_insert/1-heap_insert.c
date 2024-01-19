@@ -10,9 +10,10 @@
 
 heap_t *heap_insert(heap_t **root, int value)
 {
-	heap_t *new_node = NULL;
-	heap_t *tmp = NULL;
+	heap_t *new_node = NULL, *tmp = NULL;
 	int tmp_value = 0;
+
+    new_node = malloc(sizeof(heap_t));
 
 	if (!root)
 		return (NULL);
