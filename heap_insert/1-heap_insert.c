@@ -23,7 +23,7 @@ size_t binary_tree_size(const binary_tree_t *tree)
  * find_parent - Find the parent for the first empty place
  *
  * @root: Root of the tree
- * @i: Index of the parent wanted
+ * @index: Index of the parent wanted
  * @size: Size of the tree
  * Return: The node with the place
  */
