@@ -24,7 +24,7 @@ try:
         # Split the line by space to extract necessary information
         data = line.split(' ')
 
-        #Check if the line contains enough elements to extract status and size
+        # Check if line contains enough elements to extract status and size
         if len(data) > 6:
             status_code, size = data[-2:]  # Extract status code and size
             total_file_size += int(size)   # Add size to total_file_size
@@ -36,7 +36,7 @@ try:
 
         # Print metrics every 10 lines processed
         if lines_processed % 10 == 0:
-            print('Total file size: {}'.format(total_file_size))
+            print('File size: {}'.format(total_file_size))
             # Print status code counts in sorted order
             for (code, count) in sorted(status_code_counts.items()):
                 if count > 0:
@@ -48,7 +48,7 @@ except KeyboardInterrupt:
 
 finally:
     # Print final metrics after processing is complete
-    print('Total file size: {}'.format(total_file_size))
+    print('File size: {}'.format(total_file_size))
     for (code, count) in sorted(status_code_counts.items()):
         if count > 0:
             print('{}: {}'.format(code, count))
