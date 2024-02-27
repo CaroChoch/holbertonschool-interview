@@ -5,7 +5,7 @@
  * @n: The unsigned integer to be checked.
  *
  * Return: If the integer is a palindrome - 1.
- *         Otherwise - 0.
+ *         Otherwise - 0
  */
 
 int is_palindrome(unsigned long n)
