@@ -17,7 +17,7 @@ def validUTF8(data):
     """
     # Initialize the number of bytes to follow for the current character
     bytes_to_follow = 0
-    
+
     # Masks for checking leading bits of bytes
     mask1 = 1 << 7  # 10000000
     mask2 = 1 << 6  # 01000000
