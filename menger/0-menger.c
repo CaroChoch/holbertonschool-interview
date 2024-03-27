@@ -7,12 +7,12 @@
 
 void menger(int level)
 {
-    int i, j, size, x, y;
-    char c; /* Declare character variable c */
+	int i, j, size, x, y;
+	char c; /* Declare character variable c */
 
-    if (level < 0)
-        return;
-    size = pow(3, level);
+	if (level < 0)
+		return;
+	size = pow(3, level);
 
     /* Loop to iterate over each row of the Menger Sponge */
     for (i = 0; i < size; i++)
@@ -24,7 +24,7 @@ void menger(int level)
             y = j; /* Assign j to y */
             c = '#'; /* Assign # to c */
             /* Loop to determine if the current cell should be empty */
-            while (x > 0)
+			while (x > 0)
             {
                 /* If conditions for empty cell are met, set c to ' ' */
                 if (x % 3 == 1 && y % 3 == 1)
