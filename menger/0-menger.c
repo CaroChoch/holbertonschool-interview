@@ -4,7 +4,6 @@
 * @level: Level of the Menger Sponge to draw
 * Return: void
 */
-
 void menger(int level)
 {
 	int i, j, size, x, y;
