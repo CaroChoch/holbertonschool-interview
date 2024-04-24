@@ -14,7 +14,7 @@ const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
 request(url, function (error, response, body) {
   if (error) {
-    reject(error);
+    console.log(error);
   }
   const characters = JSON.parse(body).characters;
   let count = 0;
@@ -23,7 +23,7 @@ request(url, function (error, response, body) {
     if (count < characters.length) {
       request(characters[count], function (error, response, body) {
         if (error) {
-          reject(error);
+          console.log(error);
         }
         console.log(JSON.parse(body).name);
         count++;
