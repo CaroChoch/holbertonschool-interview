@@ -13,18 +13,18 @@ const movieId = process.argv[2];
 const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
 request(url, function (error, response, body) {
-    const characters = JSON.parse(body).characters;
-    let count = 0;
+  const characters = JSON.parse(body).characters;
+  let count = 0;
 
-    function printNextCharacter() {
-        if (count < characters.length) {
-            request(characters[count], function (error, response, body) {
-                console.log(JSON.parse(body).name);
-                count++;
-                printNextCharacter();
-            });
-        }
+  function printNextCharacter() {
+    if (count < characters.length) {
+      request(characters[count], function (error, response, body) {
+        console.log(JSON.parse(body).name);
+        count++;
+        printNextCharacter();
+      });
     }
+  }
 
-    printNextCharacter();
+  printNextCharacter();
 });
