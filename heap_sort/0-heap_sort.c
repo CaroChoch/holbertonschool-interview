@@ -22,13 +22,7 @@ void heap_sort(int *array, size_t size)
         
 		for (i = size - 1; i >= 0; i--)
 		{
-            /* Move current root to end */
-			int temp = array[0];
-			array[0] = array[i];
-			array[i] = temp;
-            /* print current array state */
-			print_array(array, lenght_array);
-            /* call max heapify on the reduced heap */
+            swap(&array[0], &array[i], array, lenght_array);
 			heapify(array, i, 0, lenght_array);
 		}
 	}
@@ -59,13 +53,24 @@ void heapify(int *array, int size, int i, int lenght_array)
     /* If largest is not root */
 	if (largest != i)
 	{
-        /* Swap the largest with the root */
-		int temp = array[i];
-		array[i] = array[largest];
-		array[largest] = temp;
-        /* print current array state */
-		print_array(array, lenght_array);
-        /* Recursively heapify the affected sub-tree */
+        swap(&array[i], &array[largest], array, lenght_array);
 		heapify(array, size, largest, lenght_array);
 	}
+}
+
+/**
+ * swap - swap the position of two elements
+ * @a: first element to swap
+ * @b: second element to swap
+ * @array: array concerned
+ * @lenght_array: lenght of the array
+ * Return: no return
+ */
+void swap(int *a, int *b, int *array, int lenght_array)
+{
+	int temp = *a;
+
+	print_array(array, lenght_array);
+	*a = *b;
+	*b = temp;
 }
