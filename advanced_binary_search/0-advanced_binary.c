@@ -7,7 +7,7 @@
  * @size: number of elements in array
  * @value: value to search for
  *
- * Return: the index where value is located.
+ * Return: the index where value is located
  */
 int advanced_binary(int *array, size_t size, int value)
 {
