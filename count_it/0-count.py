@@ -6,44 +6,35 @@ import requests
 def count_words(subreddit, word_list):
     """ Count it! """
     # Define the URL for the Reddit API endpoint
-    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    # Define the URL for the Reddit API endpoint, formatted with the subreddit name
+url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
 
-    # Define the headers for the request to include a User-Agent
-    headers = {
-        'User-Agent': 'Python/requests:APIproject:0.0.1 (by /u/veeteeran)'}
+# Define the headers for the request to include a User-Agent
+headers = {'User-Agent': 'Python/requests:APIproject:0.0.1 (by /u/veeteeran)'}
 
-    # Make a GET request to the Reddit API
-    response = requests.get(url, headers=headers, allow_redirects=False)
+# Make a GET request to the Reddit API
+response = requests.get(url, headers=headers, allow_redirects=False)
 
-    # Check if the response status is not OK (200)
-    if response.status_code != 200:
-        print()
-        return
+# Check if the response status is not OK (200)
+if response.status_code != 200:
+    return None
 
-    # Parse the JSON response
-    response = response.json()
-    data = response.get('data')
-    children = data.get('children')
+# Parse the JSON response to get the list of hot posts
+hot_posts = response.json().get('data').get('children')
 
-    # Initialize a dictionary to count the occurrences of each word
-    word_dict = {}
-    for word in word_list:
-        word_dict[word] = 0
+# Extract the titles of all hot posts
+hot_titles = [post.get('data').get('title') for post in hot_posts]
 
-    # Iterate over each post in the response
-    for child in children:
-        # Get the title of the post and split it into words
-        title = child.get('data').get('title').lower().split()
+# Initialize a dictionary to count the occurrences of each word
+word_count = {}
+for word in word_list:
+    word_count[word] = 0
+    # Count occurrences of the word in each title, case-insensitive
+    for title in hot_titles:
+        word_count[word] += len(re.findall(r'\b{}\b'.format(word), title, re.IGNORECASE))
 
-        # Count the occurrences of each word in the title
-        for i in title:
-            if i in word_dict:
-                word_dict[i] += 1
-
-    # Sort the dictionary by the count of each word in descending order
-    sorted_dict = sorted(word_dict.items(), key=lambda x: x[1], reverse=True)
-
-    # Print the words and their counts
-    for key, value in sorted_dict:
-        if value != 0:
-            print('{}: {}'.format(key, value))
+# Sort the word list by count (descending) and alphabetically (ascending) in case of a tie
+for word in sorted(word_list, key=lambda x: (-word_count[x], x)):
+    # Print the word and its count if the count is greater than 0
+    if word_count[word] > 0:
+        print('{}: {}'.format(word.lower(), word_count[word]))
