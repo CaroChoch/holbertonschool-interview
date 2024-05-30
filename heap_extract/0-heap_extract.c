@@ -1,48 +1,109 @@
 #include "binary_trees.h"
 
 /**
- * heap_extract - extracts the root node of a Max Binary Heap
+ * swap_nodes - Swaps two nodes in a binary heap
+ * @node1: First node
+ * @node2: Second node
+ */
+void swap_nodes(heap_t *node1, heap_t *node2)
+{
+	int temp;
+
+	temp = node1->n;
+	node1->n = node2->n;
+	node2->n = temp;
+}
+
+/**
+ * heapify_down - Ensures the heap property is maintained after extraction
+ * @root: Pointer to the root node of the heap
+ */
+void heapify_down(heap_t *root)
+{
+	heap_t *largest = root;
+	heap_t *left = root->left;
+	heap_t *right = root->right;
+
+	if (left && left->n > largest->n)
+		largest = left;
+	if (right && right->n > largest->n)
+		largest = right;
+	if (largest != root)
+	{
+		swap_nodes(root, largest);
+		heapify_down(largest);
+	}
+}
+
+/**
+ * get_last_node - Finds the last node in level-order traversal
+ * @root: Pointer to the root node
  *
- * @root: double pointer to the root node of the heap
+ * Return: Pointer to the last node
+ */
+heap_t *get_last_node(heap_t *root)
+{
+	heap_t *queue[1024];
+	int front = 0, rear = 0;
+	heap_t *last = NULL;
+
+	if (!root)
+		return (NULL);
+
+	queue[rear++] = root;
+	while (front < rear)
+	{
+		last = queue[front++];
+		if (last->left)
+			queue[rear++] = last->left;
+		if (last->right)
+			queue[rear++] = last->right;
+	}
+
+	return (last);
+}
+
+/**
+ * heap_extract - Extracts the root node of a max binary heap
+ * @root: Double pointer to the root node of the heap
  *
- * Return: the value stored in the root node, 0 on failure
+ * Return: The value stored in the root node, or 0 on failure
  */
 int heap_extract(heap_t **root)
 {
-    int n, size;
-    heap_t *node, **array;
+	int value;
+	heap_t *last_node, *root_node;
 
-    if (!root || !*root)
-        return (0);
-    node = *root;
-    n = node->n;
-    size = _height(node) + 1;
-    array = malloc(sizeof(heap_t *) * size);
-    if (!array)
-        return (0);
-    array[0] = node;
-    for (n = 1; n < size; n++)
-    {
-        if (array[(n - 1) / 2]->left == array[n - 1])
-            array[n] = array[(n - 1) / 2]->right;
-        else
-        {
-            if (array[(n - 1) / 2]->right)
-                array[n] = array[(n - 1) / 2]->right;
-            else
-                array[n] = array[(n - 1) / 2]->left;
-        }
-    }
-    node = array[n - 1];
-    if (array[n - 1]->parent)
-    {
-        if (array[n - 1]->parent->left == array[n - 1])
-            array[n - 1]->parent->left = NULL;
-        else
-            array[n - 1]->parent->right = NULL;
-    }
-    else
-        *root = NULL;
-    free(array);
-    return (n);
+	if (!root || !*root)
+		return (0);
+
+	root_node = *root;
+	value = root_node->n;
+
+	if (!root_node->left && !root_node->right)
+	{
+		free(root_node);
+		*root = NULL;
+		return (value);
+	}
+
+	last_node = get_last_node(root_node);
+
+	if (last_node == root_node)
+	{
+		free(root_node);
+		*root = NULL;
+		return (value);
+	}
+
+	root_node->n = last_node->n;
+	if (last_node->parent->left == last_node)
+		last_node->parent->left = NULL;
+	else
+		last_node->parent->right = NULL;
+
+	free(last_node);
+	heapify_down(root_node);
+
+	return (value);
 }
