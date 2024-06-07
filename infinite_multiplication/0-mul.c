@@ -11,8 +11,8 @@
  */
 void display_error_and_exit(void)
 {
-    printf("Error\n");
-    exit(98);
+	printf("Error\n");
+	exit(98);
 }
 
 /**
@@ -23,7 +23,7 @@ void display_error_and_exit(void)
  */
 int is_number(char c)
 {
-    return (c >= '0' && c <= '9');
+	return (c >= '0' && c <= '9');
 }
 
 /**
@@ -35,22 +35,22 @@ int is_number(char c)
  */
 void check_arguments(int argc, char *argv[])
 {
-    int i, j;
+	int i, j;
 
-    if (argc != 3)
-    {
-        display_error_and_exit();
+	if (argc != 3)
+	{
+		display_error_and_exit();
     }
-    for (i = 1; i < 3; i++)
-    {
-        for (j = 0; argv[i][j] != '\0'; j++)
-        {
-            if (!is_number(argv[i][j]))
-            {
-                display_error_and_exit();
-            }
-        }
-    }
+	for (i = 1; i < 3; i++)
+	{
+		for (j = 0; argv[i][j] != '\0'; j++)
+		{
+			if (!is_number(argv[i][j]))
+			{
+				display_error_and_exit();
+			}
+		}
+	}
 }
 
 /**
@@ -62,46 +62,46 @@ void check_arguments(int argc, char *argv[])
  */
 void calculate_product(char *num1, char *num2)
 {
-    int len1, len2, i, j, prod, sum;
-    int *result;
+	int len1, len2, i, j, prod, sum;
+	int *result;
 
-    len1 = strlen(num1);
-    len2 = strlen(num2);
-    result = (int *)calloc(len1 + len2, sizeof(int));
-    if (result == NULL)
-    {
-        display_error_and_exit();
-    }
+	len1 = strlen(num1);
+	len2 = strlen(num2);
+	result = (int *)calloc(len1 + len2, sizeof(int));
+	if (result == NULL)
+	{
+		display_error_and_exit();
+	}
 
-    for (i = len1 - 1; i >= 0; i--)
-    {
-        for (j = len2 - 1; j >= 0; j--)
-        {
-            prod = (num1[i] - '0') * (num2[j] - '0');
-            sum = prod + result[i + j + 1];
-            result[i + j + 1] = sum % 10;
-            result[i + j] += sum / 10;
-        }
-    }
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			prod = (num1[i] - '0') * (num2[j] - '0');
+			sum = prod + result[i + j + 1];
+			result[i + j + 1] = sum % 10;
+			result[i + j] += sum / 10;
+		}
+	}
 
-    i = 0;
-    while (i < len1 + len2 && result[i] == 0)
-    {
-        i++;
-    }
-    if (i == len1 + len2)
-    {
-        printf("0\n");
-    }
-    else
-    {
-        for (; i < len1 + len2; i++)
-        {
-            printf("%d", result[i]);
-        }
-        printf("\n");
-    }
-    free(result);
+	i = 0;
+	while (i < len1 + len2 && result[i] == 0)
+	{
+		i++;
+	}
+	if (i == len1 + len2)
+	{
+		printf("0\n");
+	}
+	else
+	{
+		for (; i < len1 + len2; i++)
+		{
+			printf("%d", result[i]);
+		}
+		printf("\n");
+	}
+	free(result);
 }
 
 /**
@@ -113,7 +113,7 @@ void calculate_product(char *num1, char *num2)
  */
 int main(int argc, char *argv[])
 {
-    check_arguments(argc, argv);
-    calculate_product(argv[1], argv[2]);
-    return (0);
+	check_arguments(argc, argv);
+	calculate_product(argv[1], argv[2]);
+	return (0);
 }
