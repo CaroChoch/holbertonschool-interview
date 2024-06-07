@@ -40,7 +40,7 @@ void check_arguments(int argc, char *argv[])
 	if (argc != 3)
 	{
 		display_error_and_exit();
-    }
+	}
 	for (i = 1; i < 3; i++)
 	{
 		for (j = 0; argv[i][j] != '\0'; j++)
