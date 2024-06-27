@@ -32,9 +32,9 @@ listint_t *find_listint_loop(listint_t *head)
 				fast = fast->next;
 			}
 			/* Return the address of the node where the loop starts */
-			return (slow)
+			return (slow);
 		}
-		}
+	}
 	/* If there is no loop, return NULL */
 	return (NULL);
 }
