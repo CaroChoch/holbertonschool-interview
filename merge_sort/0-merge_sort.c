@@ -1,85 +1,95 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-void rec_merge_sort(int *array, int *temp, size_t start, size_t end);
-void merge(int *array, int *temp, size_t start, size_t mid, size_t end);
-void print_array(const int *array, size_t size);
+#include "sort.h"
 
 /**
- * merge_sort - Sorts an array of integers in ascending order using the Merge
+ * merge_and_print - Merges two subarrays and prints the arrays
+ * @array: The original array
+ * @left: The starting index of the left subarray
+ * @middle: The ending index of the left subarray
+ * @right: The ending index of the right subarray
+ * @temp: Temporary array to store the merged result
+ */
+void merge_and_print(int *array, size_t left, size_t middle,
+		     size_t right, int *temp)
+{
+	size_t i = left, j = middle, k = 0;
+
+	printf("Merging...\n");
+	printf("[left]: ");
+	print_array(array + left, middle - left);
+	printf("[right]: ");
+	print_array(array + middle, right - middle);
+
+	while (i < middle && j < right)
+	{
+		if (array[i] < array[j])
+		{
+			temp[k++] = array[i++];
+		}
+		else
+		{
+			temp[k++] = array[j++];
+		}
+	}
+
+	while (i < middle)
+	{
+		temp[k++] = array[i++];
+	}
+
+	while (j < right)
+	{
+		temp[k++] = array[j++];
+	}
+
+	for (i = left, k = 0; i < right; i++, k++)
+	{
+		array[i] = temp[k];
+	}
+
+	printf("[Done]: ");
+	print_array(array + left, right - left);
+}
+
+/**
+ * merge_sort_recursive - Recursively sorts an array
  * @array: The array to be sorted
- * @size: Number of elements in @array
+ * @left: The starting index of the subarray to be sorted
+ * @right: The ending index of the subarray to be sorted
+ * @temp: Temporary array to store the merged result
+ */
+void merge_sort_recursive(int *array, size_t left, size_t right, int *temp)
+{
+	size_t middle;
+
+	if (right - left <= 1)
+		return;
+
+	middle = (left + right) / 2;
+	merge_sort_recursive(array, left, middle, temp);
+	merge_sort_recursive(array, middle, right, temp);
+
+	merge_and_print(array, left, middle, right, temp);
+}
+
+/**
+ * merge_sort - Sorts an array of integers in ascending order
+ * @array: The array to be sorted
+ * @size: The size of the array
  */
 void merge_sort(int *array, size_t size)
 {
-    int *temp;
+	int *temp;
 
-    if (array == NULL || size < 2)
-        return;
+	if (size <= 1)
+		return;
 
-    temp = malloc(sizeof(int) * size);
-    if (temp == NULL)
-        return;
+	temp = malloc(sizeof(int) * size);
+	if (temp == NULL)
+	{
+		perror("Failed to allocate memory");
+		return;
+	}
 
-    rec_merge_sort(array, temp, 0, size - 1);
-    free(temp);
-}
-
-/**
- * rec_merge_sort - Recursively sorts an array of integers in ascending order
- * @array: The array to be sorted
- * @temp: A temporary array to store sorted elements
- * @start: The starting index of the array
- * @end: The ending index of the array
- */
-void rec_merge_sort(int *array, int *temp, size_t start, size_t end)
-{
-    size_t mid;
-
-    if (start < end)
-    {
-        mid = start + (end - start) / 2;
-        rec_merge_sort(array, temp, start, mid);
-        rec_merge_sort(array, temp, mid + 1, end);
-        merge(array, temp, start, mid, end);
-    }
-}
-
-/**
- * merge - Merges two sorted arrays into one sorted array
- * @array: The array to be sorted
- * @temp: A temporary array to store sorted elements
- * @start: The starting index of the array
- * @mid: The middle index of the array
- * @end: The ending index of the array
- */
-void merge(int *array, int *temp, size_t start, size_t mid, size_t end)
-{
-    size_t i, j, k;
-
-    printf("Merging...\n");
-    printf("[left]: ");
-    print_array(array + start, mid - start + 1);
-    printf("[right]: ");
-    print_array(array + mid + 1, end - mid);
-
-    for (i = start, j = mid + 1, k = start; k <= end; k++)
-    {
-        if (i <= mid && (j > end || array[i] <= array[j]))
-        {
-            temp[k] = array[i];
-            i++;
-        }
-        else
-        {
-            temp[k] = array[j];
-            j++;
-        }
-    }
-
-    for (k = start; k <= end; k++)
-        array[k] = temp[k];
-
-    printf("[Done]: ");
-    print_array(array + start, end - start + 1);
+	merge_sort_recursive(array, 0, size, temp);
+	free(temp);
 }
