@@ -36,7 +36,8 @@ List *add_node_end(List **list, char *str)
 }
 
 /**
- * add_node_begin - adds a new node at the beginning of a double circular linked list
+ * add_node_begin - adds a new node at the beginning of a double
+ * circular linked list
  * @list: double pointer to the list
  * @str: string to be added to the new node
  *
