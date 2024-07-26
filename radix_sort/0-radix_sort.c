@@ -14,9 +14,9 @@ void radix_sort(int *array, size_t size)
     int max;
 	/* Current digit's place value */
 	int exp;
-	/* Index */
+	/* Index i */
     size_t i;
-	/* Index */
+	/* Index j */
 	int j;
 
 	/* If array is NULL or size is less than 1 */
