@@ -16,6 +16,8 @@ void radix_sort(int *array, size_t size)
 	int exp;
 	/* Index */
     size_t i;
+	/* Index */
+	int j;
 
 	/* If array is NULL or size is less than 1 */
     if (!array || size < 1)
@@ -50,7 +52,7 @@ void radix_sort(int *array, size_t size)
             count[i] += count[i - 1];
 
 		/* Build the output array using the counts positions */
-        for (int j = size - 1; j >= 0; j--)
+        for (j = size - 1; j >= 0; j--)
 		{
 			output[count[(array[j] / exp) % 10] - 1] = array[j];
 			count[(array[j] / exp) % 10]--;
