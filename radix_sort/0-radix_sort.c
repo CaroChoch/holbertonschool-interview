@@ -20,7 +20,7 @@ void radix_sort(int *array, size_t size)
 	int j;
 
 	/* If array is NULL or size is less than 1 */
-    if (!array || size < 1)
+    if (!array || size < 2)
         return;
 
 	/* Allocate memory for output array */
