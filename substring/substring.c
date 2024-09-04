@@ -46,7 +46,7 @@ int *find_substring(char const *s, char const **words, int nb_words, int *n)
  */
 int *init_indices(int len)
 {
-	return malloc(len * sizeof(int));
+	return (malloc(len * sizeof(int)));
 }
 
 /**
