@@ -28,9 +28,11 @@ void menger(int level)
 			{
 				/* If conditions for empty cell are met, set c to ' ' */
 				if (x % 3 == 1 && y % 3 == 1)
+				{
 					c = ' ';
-					x = x / 3; /* Reduce x coordinate */
-					y = y / 3; /* Reduce y coordinate */
+				}
+				x = x / 3; /* Reduce x coordinate */
+				y = y / 3; /* Reduce y coordinate */
 			}
 			/* Print the character */
 			printf("%c", c);
