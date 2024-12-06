@@ -6,6 +6,14 @@ import sys
 
 
 if __name__ == '__main__':
+    def print_metrics(status_code_counts, total_file_size):
+        """
+        Print the accumulated metrics.
+        """
+        print('File size: {}'.format(total_file_size))
+        for code, count in sorted(status_code_counts.items()):
+            if count > 0:
+                print('{}: {}'.format(code, count))
 
     # Dictionary to store counts of different HTTP status codes
     status_code_counts = {
@@ -24,31 +32,30 @@ if __name__ == '__main__':
     try:
         # Loop through each line from standard input (stdin)
         for line in sys.stdin:
-            # Split the line by space to extract necessary information
-            data = line.split(' ')
+            lines_processed += 1
+            data = line.split()
 
             # Check if line contains enough elements to extract status and size
-            if len(data) > 6:
-                status_code, size = data[-2:]  # Extract status code and size
-                total_file_size += int(size)   # Add size to total_file_size
-                # Check if status code is in status_code_counts
-                if status_code in status_code_counts:
-                    # Increment count for this status code
-                    status_code_counts[status_code] += 1
-                lines_processed += 1  # Increment lines_processed counter
+            if len(data) >= 2:
+                try:
+                    status_code = data[-2]
+                    size = int(data[-1])
+                    total_file_size += size  # Add size to total_file_size
+                    # Check if status code is in status_code_counts
+                    if status_code in status_code_counts:
+                        status_code_counts[status_code] += 1
+                except (ValueError, IndexError):
+                    # Skip lines with invalid formats
+                    continue
 
             # Print metrics every 10 lines processed
             if lines_processed % 10 == 0:
-                print('File size: {}'.format(total_file_size))
-                # Print status code counts in sorted order
-                for (code, count) in sorted(status_code_counts.items()):
-                    if count > 0:
-                        print('{}: {}'.format(code, count))
-                lines_processed = 0  # Reset lines_processed counter
+                print_metrics(status_code_counts, total_file_size)
+
+        # Print final metrics after EOF
+        print_metrics(status_code_counts, total_file_size)
 
     except KeyboardInterrupt:
-        print('File size: {}'.format(total_file_size))
-        for (code, count) in sorted(status_code_counts.items()):
-            if count > 0:
-                print('{}: {}'.format(code, count))
+        # Print metrics on KeyboardInterrupt (Ctrl+C)
+        print_metrics(status_code_counts, total_file_size)
         raise
