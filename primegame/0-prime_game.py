@@ -20,8 +20,8 @@ def isWinner(x, nums):
     nums.sort()
 
     # Check if the maximum number is less than 2
-    if nums[-1] < 2:
-        return None
+    #if nums[-1] < 2:
+        #return None
 
     # Create a list of prime numbers
     primes = [False, False] + [True for i in range(nums[-1] - 1)]
